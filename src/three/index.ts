@@ -4,13 +4,11 @@ import { Tick } from './Tick'
 
 export class Base {
   private dom: HTMLDivElement // 渲染 webgl 的父级容器
-  
   private controls: OrbitControls // 辅助工具：使得鼠标可以 控制 摄像机的运动
   private renderer: THREE.WebGLRenderer // threejs 基本概念之一： renderer（渲染器）
   private camera: THREE.PerspectiveCamera // threejs 基本概念之一： camera（摄像机）
   
   public scene = new THREE.Scene() // 初始化 场景；threejs 基本概念之一： scene（场景）
-  public clock = new THREE.Clock()
   public textureLoader = new THREE.TextureLoader() // 纹理 加载器
   public tick = new Tick() // 每一帧，执行一次
 
@@ -26,13 +24,13 @@ export class Base {
   }
 
   private tickLoop() {
-    this.renderer.setAnimationLoop(() => {
+    this.renderer.setAnimationLoop((time) => {
       this.controls.update()
       this.renderer.render(this.scene, this.camera)
 
       // 每一帧执行一次 tick
       Object.values(this.tick.oType).forEach((fns) => {
-        fns.forEach((fn) => fn(this.clock.getDelta()))
+        fns.forEach((fn) => fn(time))
       })
     })
   }
