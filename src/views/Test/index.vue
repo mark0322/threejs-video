@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import {Base} from '@/three'
-import { AmbientLight, Mesh, MeshPhongMaterial, SphereGeometry } from 'three';
 import { onMounted, ref } from 'vue';
 import * as THREE from 'three';
 
@@ -16,32 +15,40 @@ class Three extends Base {
 
     this.light()
 
-    this.plane()
-
+    this.test()
   }
 
-  plane() {
+  test() {
+    const textureLoader = new THREE.TextureLoader();
 
+    const geometry = new THREE.PlaneGeometry(5, 5);
+    const material = new THREE.MeshBasicMaterial({
+
+    })    
+    // const material = new THREE.MeshStandardMaterial({
+    //   color: 'red',
+    //   map: textureLoader.load(''),
+    //   // wireframe: true
+    // });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    this.scene.add(mesh)
   }
 
   light() {
     // ambient
-    this.scene.add(new AmbientLight(0xffffff, 0.7))
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
-    // directionLight
-    const light = new THREE.DirectionalLight( 0xFFFFFF, 3 );
-    light.position.set(-3, 3, 3)
+    const light = new THREE.PointLight( 0xFFFFFF, 3 );
+    light.position.set(-1, 1, 1)
     this.scene.add( light );
-    const helper = new THREE.DirectionalLightHelper( light, 3 );
+
+    const helper = new THREE.PointLightHelper( light, .3 );
     this.scene.add( helper );
   }
 }
 
 onMounted(() => {
-  const three = new Three(containerRef.value);
-
-  // three.tick.add(time => {
-    // console.log('time', time)
-  // })
+  const three = new Three(containerRef.value)
 })
 </script>

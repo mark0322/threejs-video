@@ -1,6 +1,6 @@
-// export 
+export const oType = Symbol('observed object')
 export class Tick {
-  oType: {[key: string]: CB[]}  = {
+  private [oType]: {[key: string]: CB[]}  = {
     __default__: []
   };
 
@@ -9,11 +9,11 @@ export class Tick {
   add(a: string | CB, fn?: CB) {
     console.log('aaa', a)
     if (typeof a === 'function') {
-      this.oType.__default__.push(a);
+      this[oType].__default__.push(a);
     }
     if (typeof a === 'string' && typeof fn === 'function') {
-      this.oType[a] = this.oType[a] || [];
-      this.oType[a].push(fn);
+      this[oType][a] = this[oType][a] || [];
+      this[oType][a].push(fn);
     }
   }
 
@@ -30,16 +30,16 @@ export class Tick {
   remove(type: string, fn: CB): void;
   remove(a: string | CB, fn?: CB) {
     if (typeof a === 'function') {
-      this.oType.__default__ = this.oType.__default__.filter(item => item !== a);
+      this[oType].__default__ = this[oType].__default__.filter(item => item !== a);
     }
 
     if (typeof a === 'string' && !fn) {
-      this.oType[a] = [];
+      this[oType][a] = [];
     }
 
     if (typeof a === 'string' && typeof fn === 'function') {
-      this.oType[a] = this.oType[a] || [];
-      this.oType[a] = this.oType[a].filter(item => item !== fn);
+      this[oType][a] = this[oType][a] || [];
+      this[oType][a] = this[oType][a].filter(item => item !== fn);
     }
   }
 }
