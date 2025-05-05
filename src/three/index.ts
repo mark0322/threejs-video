@@ -59,13 +59,16 @@ export class Base {
   }
 
   // 增加 坐标轴 和 网格的 辅助工具
-  private addHelper() {
+  private addHelper({openAxesHelper = true, openGridHelper = true} = {}) {
     // 坐标轴
-    const axesHelper = new THREE.AxesHelper(5)
-    axesHelper.position.y = 0.01
-    this.scene.add(axesHelper)
+    if (openAxesHelper) {
+      const axesHelper = new THREE.AxesHelper(5)
+      axesHelper.position.y = 0.01
+      this.scene.add(axesHelper)
+    }
 
     // 10*10 的辅助网格
+    if (!openGridHelper) return
     const gridHelper = new THREE.GridHelper(10, 10)
     this.scene.add(gridHelper)
   }

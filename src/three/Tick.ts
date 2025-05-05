@@ -7,7 +7,6 @@ export class Tick {
   add(fn: CB): void;
   add(type: string, fn: CB): void;
   add(a: string | CB, fn?: CB) {
-    console.log('aaa', a)
     if (typeof a === 'function') {
       this[oType].__default__.push(a);
     }

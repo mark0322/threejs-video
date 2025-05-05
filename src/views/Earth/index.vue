@@ -16,52 +16,47 @@ class Three extends Base {
 
     this.light()
 
-    this.plane()
+    this.earth()
   }
 
-  plane() {
+
+  earth() {
+    const textureLoader = new THREE.TextureLoader();
+
+    const color = textureLoader.load('/Earth/color.png');
+
     const mat = new THREE.MeshStandardMaterial({
-      map: this.textureLoader.load('/Earth/color.png'),
-      normalMap: this.textureLoader.load('/Earth/normal.png'),
-      displacementMap: this.textureLoader.load('/Earth/displacement.jpg'),
-      displacementScale: 1,
-      // metalnessMap: this.textureLoader.load('/Earth/MR.png'),
-      // metalness: 1,
-      // roughnessMap: this.textureLoader.load('/Earth/ROUGHNESS.png'),
-      // roughness: 0,
-      // wireframe: true
+      // color: '#3399ee',
+      map: color,
+      // wireframe: true,
+      // flatShading: true,
+      
+      normalMap: textureLoader.load('/Earth/normal.png'),
+      displacementMap: textureLoader.load('/Earth/displacement.jpg'),
+      displacementScale: 0.7,
+      metalnessMap: textureLoader.load('/Earth/MR.png'),
+      metalness: 0.1,
+      roughnessMap: textureLoader.load('/Earth/ROUGHNESS.png'),
+      roughness: 0.5,
     });
     // const geo = new THREE.IcosahedronGeometry(0.5, 30);
-    // const geo = new THREE.SphereGeometry(0.5, 60, 60);
-    const geo = new THREE.PlaneGeometry(8, 4, 30, 30);
+    const geo = new THREE.SphereGeometry(3, 40, 40);
+    // const geo = new THREE.PlaneGeometry(8, 4, 30, 30);
     const sphere = new Mesh(geo, mat);
+    sphere.rotateY(-Math.PI);
     this.scene.add(sphere)
   }
 
   light() {
     // ambient
-    this.scene.add(new AmbientLight(0xffffff, .7))
+    this.scene.add(new AmbientLight(0xffffff, 0.2))
 
     // directionLight
-    const light = new THREE.DirectionalLight( 0xFFFFFF, 2 );
-    light.position.set(-2, 2, 2)
+    const light = new THREE.DirectionalLight( 0xFFFFFF, 3 );
+    light.position.set(-3, 3, 3)
     this.scene.add( light );
     const helper = new THREE.DirectionalLightHelper( light, 1 );
     this.scene.add( helper );
-
-    // spotLight
-    // const sphere = new Mesh(
-    //   new SphereGeometry(.05),
-    //   new THREE.MeshBasicMaterial({color: 'red'})
-    // );
-    // sphere.position.set( 1, 1, 0 );
-    // this.scene.add(sphere);
-
-    // const spotLight = new THREE.SpotLight( 0xff0000, 14 );
-    // sphere.add( spotLight );
-
-    // const spotLightHelper = new THREE.SpotLightHelper( spotLight );
-    // this.scene.add( spotLightHelper );
   }
 }
 
